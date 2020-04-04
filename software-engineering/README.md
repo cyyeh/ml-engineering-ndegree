@@ -329,7 +329,9 @@ In part 2 of software engineering practices, you'll learn about the following pr
 - UNIT TEST: a type of test that covers a “unit” of code, usually a single function, independently from the rest of the program.
 - Resources:
   - Four Ways Data Science Goes Wrong and How Test Driven Data Analysis Can Help: [Blog Post](https://www.predictiveanalyticsworld.com/machinelearningtimes/four-ways-data-science-goes-wrong-and-how-test-driven-data-analysis-can-help/6947/)
-  - Ned Batchelder: Getting Started Testing: [Slide Deck](https://speakerdeck.com/pycon2014/getting-started-testing-by-ned-batchelder) and [Presentation Video](https://www.youtube.com/watch?v=FxSsnHeWQBY)
+  - Ned Batchelder: Getting Started Testing
+    - unittest version: [Slide Deck](https://speakerdeck.com/pycon2014/getting-started-testing-by-ned-batchelder) and [Presentation Video](https://www.youtube.com/watch?v=FxSsnHeWQBY)
+    - pytest version: https://nedbatchelder.com/text/test3.html
 
 #### Unit Tests
 
