@@ -13,7 +13,7 @@
 - Introduction to Object-Oriented Programming
   - Learn the basics of object-oriented programming so that you can build your own Python package.
 
-**Machine Learning in Production**
+**[Machine Learning in Production](ml-production)**
 
 - Introduction to Deployment
   - This lesson will familiarizing the student with cloud and deployment terminology along with demonstrating how deployment fits within the machine learning workflow.

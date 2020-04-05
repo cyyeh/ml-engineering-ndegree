@@ -762,7 +762,7 @@ The example in the next part of the lesson assumes you are familiar with Gaussia
 
 Here are a few formulas that might be helpful:
 
-![distribution](distribution.png)
+![distribution](images/distribution.png)
 
 #### Further Resources
 
