@@ -2,7 +2,7 @@
 
 ## Schedule
 
-**[Software Engineering Fundamentals](software-engineering)**
+### [Software Engineering Fundamentals](software-engineering)
 
 - Introduction to Software Engineering
   - Learn about the course and meet your instructors.
@@ -13,7 +13,7 @@
 - Introduction to Object-Oriented Programming
   - Learn the basics of object-oriented programming so that you can build your own Python package.
 
-**[Machine Learning in Production](ml-production)**
+### [Machine Learning in Production](ml-production)
 
 - Introduction to Deployment
   - This lesson will familiarizing the student with cloud and deployment terminology along with demonstrating how deployment fits within the machine learning workflow.
@@ -26,7 +26,7 @@
 - Updating a Model
   - In this lesson students will learn how to update their model to account for changes in the underlying data used to train their model.
 
-**Machine Learning, Case Studies**
+### Machine Learning, Case Studies
 
 - Population Segmentation
   - Train and deploy unsupervised models(PCA and k-means clustering) to group US counties by similarities and differences. Visualize the trained model attributes and interpret the results.
@@ -39,7 +39,36 @@
 - Time-Series Forecasting
   - Learn how to format time series data into context(input) and prediction(output) data, and train the built-in algorithm, DeepAR; this uses an RNN to find recurring patterns in time series data.
 
+### Extracurricular: [NLP Fundamentals](nlp)
 
+- Introduction to NLP
+  - Learn how text is represented in natural language models; transform text using methods like Bag-of-Words, TF-IDF, Word2Vec and GloVE.
+- Implementation of RNN & LSTM
+  - Learn how to represent memory in code. Then define and train RNNs in PyTorch and apply them to tasks that involve sequential data.
+- Sentiment Prediction RNN
+  - Implement a sentiment prediction RNN for predicting whether a movie review is positive or negative.
+
+### Extracurricular: [Convolutional Neural Networks](cnn)
+
+- Convolutional Neural Networks
+  - Convolutional Neural Networks allow for spatial pattern recognition. Alexis and Cezanne go over how they help us dramatically improve performance in image classification.
+- GPU Workspaces Demo
+  - See a demonstration of GPU workspaces in the Udacity classroom.
+- Cloud Computing
+  - Take advantage of Amazon's GPUs to train your neural network faster. In this lesson, you'll setup an instance on AWS and train a neural network on a GPU.
+- Transfer Learning
+  - Learn how to apply a pre-trained network to a new problem with transfer learning.
+- Weight Initialization
+  - In this lesson, you'll learn how to find good initial weights for a neural network. Having good initial weights can place the neural network closer to the optimal solution.
+- Autoencoders
+  - Autoencoders are neural networks used for data compression, image denoising, and dimension reduction. Here, you'll build autoencoders using Pytorch.
+
+### Extracurricular: [Web Deployment with Flask](web)
+
+- Web Development
+  - Develop a data dashboard using Flask, Bootstrap, Plotly and Pandas.
+- Portfolio Exercise: Deploy a Data Dashboard
+  - Customize the data dashboard from the previous lesson to make it your own. Upload the dashboard to the web.
 
 ## References
 
