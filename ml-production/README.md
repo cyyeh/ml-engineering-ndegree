@@ -542,6 +542,152 @@ Similar to Amazon's SageMaker and Google's ML Engine, Microsoft offers [Azure AI
 
 ## Building a Model using SageMaker
 
+### AWS Setup Instructions
+
+- Open a regular AWS account (if you don't already have one) following the instructions via the [Amazon Web Service Help Center](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/)
+- You will need a promo code from us so you can apply it to your account. To request a promo code, you can submit a support ticket [here](https://udacity.zendesk.com/hc/en-us/requests/new?ticket_form_id=110806).
+  - Under the "Reason for Contact" field, choose "Other", then choose "External Tools" in the dropdown.
+  - When the "External Tools" field appears, select "AWS".
+  - Please note that a regular AWS account will receive a promo code from Udacity with a fixed amount of AWS credits.
+- To apply your promo code, follow below:
+  - Click "Credits" on the left side of the screen and enter the promo-code you received, then hit "redeem".
+  - Refresh the page and you will be able to view your credits under: Below are all the credits you have redeemed with AWS. Credits will automatically be applied to your bill.
+
+![aws](images/aws-account.png)
+
+### Get Access to GPU Instances
+
+#### What is EC2?
+
+Amazon Web Services has a service called Elastic Compute Cloud (EC2), which allows you to launch virtual servers (or “instances”), including instances with attached GPUs. The specific type of GPU instance you should launch for this tutorial is called “p2.xlarge”.
+
+#### What is a Amazon Machine Image?
+
+Amazon Machine Image or AMI is a template for an operating system and basic services (e.g., an application server and specific applications). By running an AMI instance, the AMI will be running "as a virtual server in the cloud" (as per [AWS Documentation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instances-and-amis.html).
+
+We will use this [AMI image](https://aws.amazon.com/marketplace/pp/B077GF11NF) to define the operating system for your instance and to make use of its pre-installed software. In order to use this AMI, you must change your AWS region to one of the following (and you are encouraged to select the region in the list that is closest to you):
+
+- EU (Ireland)
+- Asia Pacific (Seoul)
+- Asia Pacific (Tokyo)
+- Asia Pacific (Sydney)
+- US East (N. Virginia)
+- US East (Ohio)
+- US West (Oregon)
+
+If you are unsure, please check the [AWS documentation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html) to confirm which region may be closest to you. After changing your AWS region, view your EC2 Service Limit report at this [link](https://console.aws.amazon.com/ec2/v2/home?#Limits), and find your "Current Limit" for the p2.xlarge instance type.
+
+#### What is a P2 instance?
+
+P2 are powerful and scalable parallel processing GPU instances. You can read more about these on AWS Documentation.
+
+**DO NOT FORGET TO SHUT DOWN YOUR EC2 INSTANCE or YOU WILL RUN OUT OF YOUR FREE PROMO CREDITS.**
+
+Your credits will be used for any inactive running instances. If you are in the middle of the project and need to step away, PLEASE SHUT DOWN YOUR EC2 INSTANCE. You can re-instantiate later. We have provided adequate credits to allow you to complete your projects.
+
+#### How to increase your instance limits to complete the project
+
+**View Your Current Limit**
+
+After changing your AWS region, view your [EC2 Service Limit report at this link](https://console.aws.amazon.com/ec2/v2/home?#Limits), and find your "Current Limit" for the p2.xlarge instance type. By default, AWS sets a limit of 0 on the number of p2.xlarge instances a user can run, which effectively prevents you from launching this instance.
+
+![aws](images/aws-0-image1.png)
+
+**Submit a Limit Increase Request**
+
+If your limit of p2.xlarge instances is 0, you'll need to increase the limit before you can launch an instance. From the EC2 Service Limits page, CLICK TO EDIT Calculate vCPU limit on top.
+
+![aws](images/aws-1-image2.png)
+
+The following screen pops up.
+
+In the Instance type search for p2.xlarge and the Instance count to 1, verify the New limit is showing 4 vCPUs and then click on Request limit increase
+
+Note: You won't be charged for requesting a limit increase. AWS will only charge you once you have launched the instance.
+
+![aws](images/aws-2-image3.png)
+
+This will open the following screen.
+
+Click on the Service limit increase if it is not already selected.
+
+![aws](images/aws-3-image4.png)
+
+In Requests section pick your "Primary Instance type" as "All P instances" and "1" for "New limit value"
+
+Note: If you have never launched an instance of any type on AWS, you might receive an email from AWS Support asking you to initialize your account by creating an instance before they approve the limit increase.
+
+![aws](images/aws-4-image5.png)
+
+**Wait for Approval**
+
+You must wait for AWS to approve your Limit Increase Request. AWS typically approves these requests within 48 hours.
+
+**IMPORTANT NOTICE**: This is the current AWS UI as of March 26th, 2020. The AWS UI is subject to change on a regular basis. We advise students to refer to AWS documentation for the above process.
+
+### Setting up a Notebook Instance
+
+The first thing we are going to need to do is set up a notebook instance!
+
+This will be the primary way in which we interact with the SageMaker ecosystem. Of course, this is not the only way to interact with SageMaker's functionality, but it is the way that we will use in this module.
+
+The video below guides you through setting up your first notebook instance. Also, if you prefer to read the instructions instead, these have been provided underneath the video.
+
+Note: Once a notebook instance has been set up, by default, it will be InService which means that the notebook instance is running. This is important to know because the cost of a notebook instance is based on the length of time that it has been running. This means that once you are finished using a notebook instance you should Stop it so that you are no longer incurring a cost. Don't worry though, you won't lose any data provided you don't delete the instance. Just start the instance back up when you have time and all of your saved data will still be there.
+
+#### Searching for SageMaker
+
+Your main console page may look slightly different than in the above example. You should still be able to find Amazon SageMaker by either:
+
+- Clicking on All Services then scrolling down and navigating to Machine Learning> Amazon SageMaker, or
+- By searching for SageMaker, as in the below screenshot (and clicking on it).
+
+![aws](images/aws-console.png)
+
+#### Creating and Running a Notebook Instance
+
+First, start by logging in to the [AWS console](https://console.aws.amazon.com/), opening the SageMaker dashboard, selecting Notebook Instances and clicking on Create notebook instance.
+
+You may choose any name you would like for your notebook. Also, using ml.t2.medium should be all that is necessary for the notebooks that you will encounter in this module. In addition, an ml.t2.medium instance is covered under the free tier.
+
+Next, under IAM role select Create a new role. You should get a pop-up window that looks like the one below. The only change that needs to be made is to select None under S3 buckets you specify, as is shown in the image below.
+
+![aws-iam](images/create-an-iam-role.png)
+
+Once you have finished setting up the role for your notebook, your notebook instance settings should look something like the image below.
+
+![notebook](images/notebook-instance-settings.png)
+
+Note: Your notebook name may be different than the one displayed and the IAM role that appears will be different.
+
+Now scroll down and click on Create notebook instance.
+
+Once your notebook instance has started and is accessible, click on open to get to the Jupyter notebook main page.
+
+### Cloning the Deployment Notebooks
+
+Recently, SageMaker has added a line in the setup code to link directly to a Github repository and it's recommended that you use that setup!
+
+Also on the `Actions` list, you should select `Open Jupyter` to get to the examples notebooks. from the dropdown menu, you'll still be able to see the `Stop` action.
+
+---
+
+Now that your notebook instance has been set up and is running, it's time to get the notebooks that we will be using during this module.
+
+These notebooks are stored in a [repository on Github](https://github.com/udacity/sagemaker-deployment) and the easiest way to make them available inside of your notebook instance is to use git and clone the repository.
+
+In order to clone the deployment repository into your notebook instance, click on the new drop down menu and select terminal. By default, the working directory of the terminal instance is the home directory, however, the Jupyter notebook hub's root directory is under `SageMaker`. Enter the appropriate directory and clone the repository as follows:
+
+```
+cd SageMaker
+git clone https://github.com/udacity/sagemaker-deployment.git
+exit
+```
+
+After you have finished, close the terminal window.
+
+Your notebook instance is now set up and ready to be used!
+
 ## Deploying and Using a Model
 
 ## Hyperparameter Tuning
