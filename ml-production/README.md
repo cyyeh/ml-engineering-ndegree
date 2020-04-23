@@ -690,6 +690,12 @@ Your notebook instance is now set up and ready to be used!
 
 ## Deploying and Using a Model
 
+See [notebooks]((https://github.com/udacity/sagemaker-deployment)) here.
+
 ## Hyperparameter Tuning
 
+See [notebooks]((https://github.com/udacity/sagemaker-deployment)) here.
+
 ## Updating a Model
+
+See [notebooks]((https://github.com/udacity/sagemaker-deployment)) here.
