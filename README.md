@@ -26,7 +26,7 @@
 - Updating a Model
   - In this lesson students will learn how to update their model to account for changes in the underlying data used to train their model.
 
-### Machine Learning, Case Studies
+### [Machine Learning, Case Studies](ml-usecases)
 
 - Population Segmentation
   - Train and deploy unsupervised models(PCA and k-means clustering) to group US counties by similarities and differences. Visualize the trained model attributes and interpret the results.
@@ -39,7 +39,7 @@
 - Time-Series Forecasting
   - Learn how to format time series data into context(input) and prediction(output) data, and train the built-in algorithm, DeepAR; this uses an RNN to find recurring patterns in time series data.
 
-### Extracurricular: [NLP Fundamentals](nlp)
+### Extracurricular: [NLP Fundamentals](deep-learning/nlp)
 
 - Introduction to NLP
   - Learn how text is represented in natural language models; transform text using methods like Bag-of-Words, TF-IDF, Word2Vec and GloVE.
@@ -48,7 +48,7 @@
 - Sentiment Prediction RNN
   - Implement a sentiment prediction RNN for predicting whether a movie review is positive or negative.
 
-### Extracurricular: [Convolutional Neural Networks](cnn)
+### Extracurricular: [Convolutional Neural Networks](deep-learning/cnn)
 
 - Convolutional Neural Networks
   - Convolutional Neural Networks allow for spatial pattern recognition. Alexis and Cezanne go over how they help us dramatically improve performance in image classification.
@@ -69,6 +69,8 @@
   - Develop a data dashboard using Flask, Bootstrap, Plotly and Pandas.
 - Portfolio Exercise: Deploy a Data Dashboard
   - Customize the data dashboard from the previous lesson to make it your own. Upload the dashboard to the web.
+
+### [Deep Learning with Notebooks](deep-learning/notebooks)
 
 ## References
 
