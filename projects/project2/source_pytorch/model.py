@@ -27,6 +27,11 @@ class BinaryClassifier(nn.Module):
         super(BinaryClassifier, self).__init__()
 
         # define any initial layers, here
+        self.fc1 = nn.Linear(input_features, hidden_dim)
+        self.fc2 = nn.Linear(hidden_dim, output_dim)
+        self.drop = nn.Dropout(0.5)
+        # sigmoid layer
+        self.sig = nn.Sigmoid()
         
 
     
@@ -39,6 +44,8 @@ class BinaryClassifier(nn.Module):
         """
         
         # define the feedforward behavior
-        
-        return x
+        out = F.relu(self.fc1(x))
+        out = self.drop(out)
+        out = self.fc2(out)
+        return self.sig(out)
     
