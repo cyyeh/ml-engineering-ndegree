@@ -7,6 +7,17 @@ verify_ssl = true
 autopep8 = "*"
 
 [packages]
+jupyterlab = "*"
+torch = "*"
+torchvision = "*"
+numpy = "*"
+pandas = "*"
+matplotlib = "*"
+opencv-python = "*"
+tqdm = "*"
+torchsummary = "*"
+torch-lr-finder = "*"
+ipywidgets = "*"
 
 [requires]
 python_version = "3.6"
