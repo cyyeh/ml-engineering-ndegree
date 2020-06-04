@@ -66,3 +66,37 @@ Please do __NOT__ include any of the project data sets provided in the `dogImage
 ### Ready to submit your project?
 
 Click on the "Submit Project" button in the classroom and follow the instructions to submit!
+
+---
+
+## Project Directory Structure
+
+- haarcascades/: OpenCV pretrained model for detecting human faces
+- images/test/: It has several images for testing(3 humans, 3 dogs)
+- dog_app.ipynb: Project notebook
+- proposal.pdf: Capstone proposal
+- capstone-report.pdf: Capstone report
+- model_scrath.pt: Baseline model trained weights
+- model_transfer.pt: Proposed model trained weights
+- Pipfile: Dependencies definition file
+- Pipfile.lock: Dependencies locked file
+
+## How to run the project
+
+- This project is based on Python3.6
+- Go to the project directory
+
+Using `pipenv`
+- Run `pipenv install`(If there is no pipenv, run `pip install pipenv`)
+- Run `pipenv run jupyter lab`
+- Open `dog_app.ipynb`
+
+Using `requirements.txt`
+- Run `pip install -r requirements.txt`
+
+## Using trained model weights
+
+Since it takes quite a long time to train the both baseline model and proposed model, I've already include two trained weights files. If you can't load them directly, you can download them directly below.
+
+- [model_scratch.pt](https://github.com/cyyeh/ml-engineering-ndegree/blob/master/projects/capstone-project/model_scratch.pt)
+- [model_transfer.pt](https://github.com/cyyeh/ml-engineering-ndegree/blob/master/projects/capstone-project/model_transfer.pt)
