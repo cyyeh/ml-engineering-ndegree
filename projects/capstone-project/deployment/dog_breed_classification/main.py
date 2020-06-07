@@ -7,13 +7,9 @@ from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
-from google.cloud import logging
 
 from dog_breed_classifier import DogBreedPrediction
 from utility import download_blob
-
-logging_client = logging.Client()
-logger = logging_client.logger("dog-breed-classifier")
 
 # keep model as global variable so we don't have to reload
 # it in case of warm invocations
@@ -41,7 +37,7 @@ def classify_dog_breeds(img_data: ImageData):
     global model
 
     if model is None:
-        logger.log_text(f'Initial startup, model content: {model}')
+        print(f'Initial startup, model content: {model}')
         download_blob(BUCKET_NAME, SOURCE_BLOB_NAME, DESTINATION_FILE_NAME)
         model = DogBreedPrediction(DESTINATION_FILE_NAME)
 

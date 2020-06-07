@@ -5,3 +5,4 @@
 __pycache__
 Pipfile
 Pipfile.lock
+*.md

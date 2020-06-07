@@ -13,7 +13,6 @@ pillow = "*"
 google-cloud-storage = "*"
 fastapi = "*"
 uvicorn = "*"
-google-cloud-logging = "*"
 
 [requires]
 python_version = "3.6"
