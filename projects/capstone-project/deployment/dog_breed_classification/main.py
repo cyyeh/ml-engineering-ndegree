@@ -13,6 +13,7 @@ from utility import download_blob
 # keep model as global variable so we don't have to reload
 # it in case of warm invocations
 model = None
+model_pretrained = None
 
 BUCKET_NAME = os.getenv('BUCKET_NAME', 'dog-breed-classifier')
 SOURCE_BLOB_NAME = os.getenv('SOURCE_BLOB_NAME', 'model_transfer.pt')
@@ -46,7 +47,9 @@ def classify_dog_breeds(img_data: ImageData):
 
     if model is None:
         print(f'Initial startup, model content: {model}')
-        download_blob(BUCKET_NAME, SOURCE_BLOB_NAME, DESTINATION_FILE_NAME)
+        if model_pretrained is None:
+            download_blob(BUCKET_NAME, SOURCE_BLOB_NAME, DESTINATION_FILE_NAME)
+            model_pretrained = True
         model = DogBreedPrediction(DESTINATION_FILE_NAME)
 
     # check input data is really an image
