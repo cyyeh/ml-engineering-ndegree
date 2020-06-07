@@ -43,7 +43,7 @@ def read_healthcheck():
 
 @app.post('/classify-dog-breeds')
 def classify_dog_breeds(img_data: ImageData):
-    global model
+    global model, model_pretrained
 
     if model is None:
         print(f'Initial startup, model content: {model}')
