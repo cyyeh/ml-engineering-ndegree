@@ -3,9 +3,7 @@ import os
 import base64
 from io import BytesIO
 
-from fastapi import FastAPI
-from fastapi.encoders import jsonable_encoder
-from fastapi.responses import JSONResponse
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 from dog_breed_classifier import DogBreedPrediction
@@ -44,10 +42,12 @@ def classify_dog_breeds(img_data: ImageData):
     # check input data is really an image
     if re.match(BASE64_IMAGE_PATTERN, img_data.base64):
         img_data = re.sub(BASE64_IMAGE_PATTERN, '', img_data.base64)
-        img_path = BytesIO(base64.b64decode(img_data))
-        return model.predict(img_path)
+        try:
+            img_path = BytesIO(base64.b64decode(img_data, validate=True))
+            return model.predict(img_path)
+        except Exception as e:
+            raise HTTPException(
+                status_code=400, detail='There is a base64 decoding error.')
     else:
-        return {
-            'dog_detected': False,
-            'message': 'No image file found, please check again.'
-        }
+        raise HTTPException(
+            status_code=400, detail='No image file found, please check again.')
