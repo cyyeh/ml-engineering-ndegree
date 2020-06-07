@@ -19,6 +19,11 @@ logger = logging_client.logger("dog-breed-classifier")
 # it in case of warm invocations
 model = None
 
+BUCKET_NAME = os.getenv('BUCKET_NAME', 'dog-breed-classifier')
+SOURCE_BLOB_NAME = os.getenv('SOURCE_BLOB_NAME', 'model_transfer.pt')
+DESTINATION_FILE_NAME = f'/tmp/{SOURCE_BLOB_NAME}'
+BASE64_IMAGE_PATTERN = '^data:image/.+;base64,'
+
 app = FastAPI()
 
 
@@ -34,9 +39,6 @@ def read_healthcheck():
 @app.post('/classify-dog-breeds')
 def classify_dog_breeds(img_data: ImageData):
     global model
-    BUCKET_NAME = os.getenv('BUCKET_NAME', 'dog-breed-classifier')
-    SOURCE_BLOB_NAME = os.getenv('SOURCE_BLOB_NAME', 'model_transfer.pt')
-    DESTINATION_FILE_NAME = f'/tmp/{SOURCE_BLOB_NAME}'
 
     if model is None:
         logger.log_text(f'Initial startup, model content: {model}')
@@ -44,7 +46,6 @@ def classify_dog_breeds(img_data: ImageData):
         model = DogBreedPrediction(DESTINATION_FILE_NAME)
 
     # check input data is really an image
-    BASE64_IMAGE_PATTERN = '^data:image/.+;base64,'
     if re.match(BASE64_IMAGE_PATTERN, img_data.base64):
         img_data = re.sub(BASE64_IMAGE_PATTERN, '', img_data.base64)
         img_path = BytesIO(base64.b64decode(img_data))
