@@ -4,7 +4,8 @@ If you want to see the frontend part, please check out [here](https://github.com
 
 ## Commands for Local Development
 
-- `uvicorn main:app --reload`
+- setup development environment: `pipenv install`
+- local development: `pipenv run uvicorn main:app --reload`
 
 ## Commands for deploying to Cloud Run
 
