@@ -1,0 +1,18 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+torch = "*"
+torchvision = "*"
+numpy = "*"
+pillow = "*"
+google-cloud-storage = "*"
+fastapi = "*"
+uvicorn = "*"
+
+[requires]
+python_version = "3.6"
