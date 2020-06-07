@@ -4,6 +4,7 @@ import base64
 from io import BytesIO
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from dog_breed_classifier import DogBreedPrediction
@@ -19,6 +20,19 @@ DESTINATION_FILE_NAME = f'/tmp/{SOURCE_BLOB_NAME}'
 BASE64_IMAGE_PATTERN = '^data:image/.+;base64,'
 
 app = FastAPI()
+
+origins = [
+    'http://localhost',
+    'http://localhost:8080',
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origin=origins,
+    allow_credentials=True,
+    allow_methods=['*'],
+    allow_headers=['*'],
+)
 
 
 class ImageData(BaseModel):
