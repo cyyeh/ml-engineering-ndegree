@@ -9,8 +9,10 @@ verify_ssl = true
 torch = "*"
 torchvision = "*"
 numpy = "*"
-google-cloud-storage = "*"
 pillow = "*"
+google-cloud-storage = "*"
+fastapi = "*"
+uvicorn = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.6"

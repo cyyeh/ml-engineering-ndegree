@@ -49,7 +49,8 @@ class PreActBottleneck(nn.Module):
         self.gn1 = nn.GroupNorm(32, cin)
         self.conv1 = conv1x1(cin, cmid)
         self.gn2 = nn.GroupNorm(32, cmid)
-        self.conv2 = conv3x3(cmid, cmid, stride)  # Original code has it on conv1!!
+        # Original code has it on conv1!!
+        self.conv2 = conv3x3(cmid, cmid, stride)
         self.gn3 = nn.GroupNorm(32, cmid)
         self.conv3 = conv1x1(cmid, cout)
         self.relu = nn.ReLU(inplace=True)
@@ -60,7 +61,7 @@ class PreActBottleneck(nn.Module):
 
     def forward(self, x):
         out = self.relu(self.gn1(x))
-        
+
         # Residual branch
         residual = x
         if hasattr(self, 'downsample'):
@@ -76,12 +77,18 @@ class PreActBottleneck(nn.Module):
     def load_from(self, weights, prefix=''):
         convname = 'standardized_conv2d'
         with torch.no_grad():
-            self.conv1.weight.copy_(tf2th(weights[f'{prefix}a/{convname}/kernel']))
-            self.conv2.weight.copy_(tf2th(weights[f'{prefix}b/{convname}/kernel']))
-            self.conv3.weight.copy_(tf2th(weights[f'{prefix}c/{convname}/kernel']))
-            self.gn1.weight.copy_(tf2th(weights[f'{prefix}a/group_norm/gamma']))
-            self.gn2.weight.copy_(tf2th(weights[f'{prefix}b/group_norm/gamma']))
-            self.gn3.weight.copy_(tf2th(weights[f'{prefix}c/group_norm/gamma']))
+            self.conv1.weight.copy_(
+                tf2th(weights[f'{prefix}a/{convname}/kernel']))
+            self.conv2.weight.copy_(
+                tf2th(weights[f'{prefix}b/{convname}/kernel']))
+            self.conv3.weight.copy_(
+                tf2th(weights[f'{prefix}c/{convname}/kernel']))
+            self.gn1.weight.copy_(
+                tf2th(weights[f'{prefix}a/group_norm/gamma']))
+            self.gn2.weight.copy_(
+                tf2th(weights[f'{prefix}b/group_norm/gamma']))
+            self.gn3.weight.copy_(
+                tf2th(weights[f'{prefix}c/group_norm/gamma']))
             self.gn1.bias.copy_(tf2th(weights[f'{prefix}a/group_norm/beta']))
             self.gn2.bias.copy_(tf2th(weights[f'{prefix}b/group_norm/beta']))
             self.gn3.bias.copy_(tf2th(weights[f'{prefix}c/group_norm/beta']))
@@ -110,19 +117,23 @@ class ResNetV2(nn.Module):
         self.body = nn.Sequential(OrderedDict([
             ('block1', nn.Sequential(OrderedDict(
                 [('unit01', PreActBottleneck(cin=64*wf, cout=256*wf, cmid=64*wf))] +
-                [(f'unit{i:02d}', PreActBottleneck(cin=256*wf, cout=256*wf, cmid=64*wf)) for i in range(2, block_units[0] + 1)],
+                [(f'unit{i:02d}', PreActBottleneck(cin=256*wf, cout=256*wf, cmid=64*wf))
+                 for i in range(2, block_units[0] + 1)],
             ))),
             ('block2', nn.Sequential(OrderedDict(
                 [('unit01', PreActBottleneck(cin=256*wf, cout=512*wf, cmid=128*wf, stride=2))] +
-                [(f'unit{i:02d}', PreActBottleneck(cin=512*wf, cout=512*wf, cmid=128*wf)) for i in range(2, block_units[1] + 1)],
+                [(f'unit{i:02d}', PreActBottleneck(cin=512*wf, cout=512 *
+                                                   wf, cmid=128*wf)) for i in range(2, block_units[1] + 1)],
             ))),
             ('block3', nn.Sequential(OrderedDict(
                 [('unit01', PreActBottleneck(cin=512*wf, cout=1024*wf, cmid=256*wf, stride=2))] +
-                [(f'unit{i:02d}', PreActBottleneck(cin=1024*wf, cout=1024*wf, cmid=256*wf)) for i in range(2, block_units[2] + 1)],
+                [(f'unit{i:02d}', PreActBottleneck(cin=1024*wf, cout=1024 *
+                                                   wf, cmid=256*wf)) for i in range(2, block_units[2] + 1)],
             ))),
             ('block4', nn.Sequential(OrderedDict(
                 [('unit01', PreActBottleneck(cin=1024*wf, cout=2048*wf, cmid=512*wf, stride=2))] +
-                [(f'unit{i:02d}', PreActBottleneck(cin=2048*wf, cout=2048*wf, cmid=512*wf)) for i in range(2, block_units[3] + 1)],
+                [(f'unit{i:02d}', PreActBottleneck(cin=2048*wf, cout=2048 *
+                                                   wf, cmid=512*wf)) for i in range(2, block_units[3] + 1)],
             ))),
         ]))
         # pylint: enable=line-too-long
@@ -138,19 +149,23 @@ class ResNetV2(nn.Module):
     def forward(self, x):
         x = self.head(self.body(self.root(x)))
         assert x.shape[-2:] == (1, 1)  # We should have no spatial shape left.
-        return x[...,0,0]
+        return x[..., 0, 0]
 
     def load_from(self, weights, prefix='resnet/'):
         with torch.no_grad():
-            self.root.conv.weight.copy_(tf2th(weights[f'{prefix}root_block/standardized_conv2d/kernel']))  # pylint: disable=line-too-long
-            self.head.gn.weight.copy_(tf2th(weights[f'{prefix}group_norm/gamma']))
+            self.root.conv.weight.copy_(tf2th(
+                weights[f'{prefix}root_block/standardized_conv2d/kernel']))  # pylint: disable=line-too-long
+            self.head.gn.weight.copy_(
+                tf2th(weights[f'{prefix}group_norm/gamma']))
             self.head.gn.bias.copy_(tf2th(weights[f'{prefix}group_norm/beta']))
             if self.zero_head:
                 nn.init.zeros_(self.head.conv.weight)
                 nn.init.zeros_(self.head.conv.bias)
             else:
-                self.head.conv.weight.copy_(tf2th(weights[f'{prefix}head/conv2d/kernel']))  # pylint: disable=line-too-long
-                self.head.conv.bias.copy_(tf2th(weights[f'{prefix}head/conv2d/bias']))
+                self.head.conv.weight.copy_(
+                    tf2th(weights[f'{prefix}head/conv2d/kernel']))  # pylint: disable=line-too-long
+                self.head.conv.bias.copy_(
+                    tf2th(weights[f'{prefix}head/conv2d/bias']))
 
         for bname, block in self.body.named_children():
             for uname, unit in block.named_children():
