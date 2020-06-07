@@ -97,7 +97,7 @@ class DogBreedPrediction(object):
 
         if self._detect_dog(input_batch):
             return {
-                'dog_detected:': True,
+                'dog_detected': True,
                 'message': self._predit_top3_dog_breeds(input_batch),
             }
         else:
