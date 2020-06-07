@@ -2,6 +2,10 @@
 
 If you want to see the frontend part, please check out [here](https://github.com/cyyeh/dog-breed-classifier-web).
 
+## Commands for Local Development
+
+- `uvicorn main:app --reload`
+
 ## Commands for deploying to Cloud Run
 
 reference: https://cloud.google.com/run/docs/quickstarts/build-and-deploy
