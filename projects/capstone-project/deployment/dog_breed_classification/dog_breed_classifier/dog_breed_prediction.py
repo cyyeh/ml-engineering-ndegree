@@ -38,8 +38,8 @@ CLASS_NAMES = [
 class DogBreedPrediction(object):
     def __init__(self, model_file):
         super(DogBreedPrediction, self).__init__()
-        # VGG-16 pretrained model
-        self._dog_detector = models.vgg16(pretrained=True)
+        # MobileNet v2 pretrained model
+        self._dog_detector = models.mobilenet_v2(pretrained=True)
         # BiT fine-tuned model
         self._dog_breed_classifier = ResNetV2(
             [3, 4, 23, 3], width_factor=1, head_size=133, zero_head=True)
@@ -59,6 +59,7 @@ class DogBreedPrediction(object):
         self._class_names = CLASS_NAMES
 
     def _detect_dog(self, input_batch):
+        self._dog_detector.eval()
         with torch.no_grad():
             output = self._dog_detector(input_batch)
 
@@ -72,6 +73,7 @@ class DogBreedPrediction(object):
         with torch.no_grad():
             output = self._dog_breed_classifier(input_batch)
 
+        self._dog_breed_classifier.eval()
         # the following code is to get top-3 dog breeds with respective probability
         # to get probability distribution over all classes
         softmax = nn.Softmax(dim=1)
