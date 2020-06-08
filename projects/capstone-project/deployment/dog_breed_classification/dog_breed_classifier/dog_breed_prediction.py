@@ -90,18 +90,18 @@ class DogBreedPrediction(object):
     def predict(self, img_path):
         ImageFile.LOAD_TRUNCATED_IMAGES = True
 
-        input_img = Image.open(img_path)
-        input_tensor = self._preprocess(input_img)
-        # (224, 224, 3) -> (1, 224, 224, 3)
-        input_batch = input_tensor.unsqueeze(0)
+        with Image.open(img_path) as input_img:
+            input_tensor = self._preprocess(input_img)
+            # (224, 224, 3) -> (1, 224, 224, 3)
+            input_batch = input_tensor.unsqueeze(0)
 
-        if self._detect_dog(input_batch):
-            return {
-                'dog_detected': True,
-                'message': self._predit_top3_dog_breeds(input_batch),
-            }
-        else:
-            return {
-                'dog_detected': False,
-                'message': 'No dog is detected, please try another image again!',
-            }
+            if self._detect_dog(input_batch):
+                return {
+                    'dog_detected': True,
+                    'message': self._predit_top3_dog_breeds(input_batch),
+                }
+            else:
+                return {
+                    'dog_detected': False,
+                    'message': 'No dog is detected, please try another image again!',
+                }
