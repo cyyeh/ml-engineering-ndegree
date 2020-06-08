@@ -55,16 +55,12 @@ def classify_dog_breeds(img_data: ImageData):
     # check input data is really an image
     if re.match(BASE64_IMAGE_PATTERN, img_data.base64):
         img_data = re.sub(BASE64_IMAGE_PATTERN, '', img_data.base64)
-        buffer = BytesIO()
         try:
-            img_data_decode = base64.b64decode(img_data, validate=True)
-            buffer.write(img_data_decode)
-            return model.predict(buffer)
+            with BytesIO(base64.b64decode(img_data, validate=True)) as img_data_decode:
+                return model.predict(img_data_decode)
         except Exception as e:
             raise HTTPException(
                 status_code=400, detail='There is a base64 decoding error.')
-        finally:
-            buffer.close()
     else:
         raise HTTPException(
             status_code=400, detail='No image file found, please check again.')
