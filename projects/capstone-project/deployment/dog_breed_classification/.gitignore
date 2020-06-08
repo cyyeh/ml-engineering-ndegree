@@ -1,2 +1,9 @@
 .vscode
+*.pyc
+*.pyo
+*.pyd
+__pycache__
+Pipfile
+Pipfile.lock
+*.md
 .DS_Store
