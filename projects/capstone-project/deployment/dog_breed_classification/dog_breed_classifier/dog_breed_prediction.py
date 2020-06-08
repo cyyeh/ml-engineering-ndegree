@@ -45,7 +45,6 @@ class DogBreedPrediction(object):
             [3, 4, 23, 3], width_factor=1, head_size=133, zero_head=True)
         self._dog_breed_classifier.load_state_dict(
             torch.load(model_file, map_location=torch.device('cpu')))
-        # https://pytorch.org/hub/pytorch_vision_vgg/
         # both models use the same preprocess step
         self._preprocess = transforms.Compose([
             transforms.Resize(256),

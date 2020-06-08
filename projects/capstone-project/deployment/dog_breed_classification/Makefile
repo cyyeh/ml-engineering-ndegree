@@ -8,5 +8,7 @@ dev:
 	docker run -p $(LOCAL_PORT):$(DOCKER_PORT) -e PORT=$(DOCKER_PORT) -e GOOGLE_APPLICATION_CREDENTIALS=$(GOOGLE_APPLICATION_CREDENTIALS) -v $$GOOGLE_APPLICATION_CREDENTIALS:$(GOOGLE_APPLICATION_CREDENTIALS):ro gcr.io/$(PROJECT_ID)/$(IMAGE_NAME)
 build:
 	gcloud builds submit --tag gcr.io/$(PROJECT_ID)/$(IMAGE_NAME)
+build-no-cache:
+	gcloud builds submit --no-cache --tag gcr.io/$(PROJECT_ID)/$(IMAGE_NAME)
 deploy:
 	gcloud run deploy --image gcr.io/$(PROJECT_ID)/$(IMAGE_NAME) --platform managed
