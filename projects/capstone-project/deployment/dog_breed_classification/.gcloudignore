@@ -7,3 +7,4 @@ Pipfile
 Pipfile.lock
 *.md
 .DS_Store
+Makefile
