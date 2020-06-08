@@ -4,8 +4,13 @@ If you want to see the frontend part, please check out [here](https://github.com
 
 ## Commands for Local Development
 
-- setup development environment: `pipenv install`
-- local development: `pipenv run uvicorn main:app --reload`
+- Without Using Docker
+  - setup development environment: `pipenv install`
+  - local development: `pipenv run uvicorn main:app --reload`
+- Using Docker
+  - `PORT=8080 && docker run -p 5000:${PORT} -e PORT=${PORT} -e GOOGLE_APPLICATION_CREDENTIALS=/tmp/keys/FILE_NAME.json -v $GOOGLE_APPLICATION_CREDENTIALS:/tmp/keys/FILE_NAME.json:ro gcr.io/PROJECT_ID/IMAGE`
+    - get `PROJECT-ID` by `gcloud config get-value project`
+    - `IMAGE` is your docker image name
 
 ## Commands for deploying to Cloud Run
 
