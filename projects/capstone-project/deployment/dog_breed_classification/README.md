@@ -11,8 +11,8 @@ If you want to see the frontend part, please check out [here](https://github.com
 
 Below commands are already written in `Makefile`, please checkout and change any setting you need first.
 - local development using docker:
-  - `make dev`
-- build a docker image to google container registry:
-  - `make build`
-- deploy a docker image in google container registry to Google Cloud Run:
-  - `make deploy`
+  - `make docker-dev`
+- build a docker image:
+  - `make docker-build`
+- deploy a docker image:
+  - `make docker-deploy`
