@@ -60,6 +60,7 @@ class DogBreedPrediction(object):
 
     def _detect_dog(self, input_batch):
         self._dog_detector.eval()
+
         with torch.no_grad():
             output = self._dog_detector(input_batch)
 
@@ -70,10 +71,11 @@ class DogBreedPrediction(object):
         def get_class_name(classes):
             return map(lambda x: self._class_names[x], classes)
 
+        self._dog_breed_classifier.eval()
+
         with torch.no_grad():
             output = self._dog_breed_classifier(input_batch)
 
-        self._dog_breed_classifier.eval()
         # the following code is to get top-3 dog breeds with respective probability
         # to get probability distribution over all classes
         softmax = nn.Softmax(dim=1)
