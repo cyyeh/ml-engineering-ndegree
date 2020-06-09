@@ -6,8 +6,6 @@ import numpy as np
 from PIL import Image
 from PIL import ImageFile
 
-from . import ResNetV2
-
 CLASS_NAMES = [
     'Affenpinscher', 'Afghan hound', 'Airedale terrier', 'Akita', 'Alaskan malamute', 'American eskimo dog',
     'American foxhound', 'American staffordshire terrier', 'American water spaniel', 'Anatolian shepherd dog',
@@ -40,11 +38,8 @@ class DogBreedPrediction(object):
         super(DogBreedPrediction, self).__init__()
         # MobileNet v2 pretrained model
         self._dog_detector = models.mobilenet_v2(pretrained=True)
-        # BiT fine-tuned model
-        self._dog_breed_classifier = ResNetV2(
-            [3, 4, 23, 3], width_factor=1, head_size=133, zero_head=True)
-        self._dog_breed_classifier.load_state_dict(
-            torch.load(model_file, map_location=torch.device('cpu')))
+        # MobileNet v2 fine-tuned model
+        self._dog_breed_classifier = torch.load(model_file)
         # both models use the same preprocess step
         self._preprocess = transforms.Compose([
             transforms.Resize(256),

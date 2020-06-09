@@ -13,10 +13,10 @@ from utility import download_blob
 # keep model as global variable so we don't have to reload
 # it in case of warm invocations
 model = None
-model_pretrained = None
+loaded_pretrained_model = None
 
 BUCKET_NAME = os.getenv('BUCKET_NAME', 'dog-breed-classifier')
-SOURCE_BLOB_NAME = os.getenv('SOURCE_BLOB_NAME', 'model_transfer.pt')
+SOURCE_BLOB_NAME = os.getenv('SOURCE_BLOB_NAME', 'dog_classification_model.pt')
 DESTINATION_FILE_NAME = f'/tmp/{SOURCE_BLOB_NAME}'
 BASE64_IMAGE_PATTERN = '^data:image/.+;base64,'
 
@@ -43,13 +43,13 @@ def read_healthcheck():
 
 @app.post('/classify-dog-breeds')
 async def classify_dog_breeds(img_data: ImageData):
-    global model, model_pretrained
+    global model, loaded_pretrained_model
 
     if model is None:
         print(f'Initial startup, model content: {model}')
-        if model_pretrained is None:
+        if loaded_pretrained_model is None:
             download_blob(BUCKET_NAME, SOURCE_BLOB_NAME, DESTINATION_FILE_NAME)
-            model_pretrained = True
+            loaded_pretrained_model = True
         model = DogBreedPrediction(DESTINATION_FILE_NAME)
 
     # check input data is really an image
